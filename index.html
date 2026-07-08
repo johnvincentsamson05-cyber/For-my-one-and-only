@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Sa'yo, Aking Mahal ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap');
+        
+        :root {
+            --heart-color: #ff1493;
+        }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #1a0033, #4a0022);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .polaroid {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+        }
+        
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05) !important;
+            box-shadow: 0 35px 60px -15px rgb(255 20 147 / 0.4);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+        
+        .ring-box {
+            animation: ringPulse 2s infinite;
+        }
+        
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        
+        .photo-container {
+            perspective: 1000px;
+        }
+        
+        .modal {
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes modalPop {
+            from {
+                opacity: 0;
+                transform: scale(0.6) translateY(100px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .heart {
+            color: var(--heart-color);
+            animation: heartbeat 1.2s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        
+        .message-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    <!-- Background hearts -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-10 left-10 text-6xl heart">💖</div>
+        <div class="absolute top-32 right-20 text-5xl heart" style="animation-delay: 0.8s;">❤️</div>
+        <div class="absolute bottom-40 left-32 text-7xl heart" style="animation-delay: 1.5s;">💕</div>
+        <div class="absolute bottom-20 right-40 text-4xl heart" style="animation-delay: 2.2s;">💗</div>
+    </div>
+
+    <div class="max-w-5xl w-full z-10">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-6xl md:text-7xl font-bold mb-4 tracking-wider" style="font-family: 'Dancing Script', cursive;">
+                Mahal Ko,
+            </h1>
+            <p class="text-2xl text-pink-200">This is for you... forever ❤️</p>
+            <div class="mt-6 flex justify-center gap-4">
+                <div onclick="toggleMusic()" class="cursor-pointer px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full flex items-center gap-3 transition-all">
+                    <i id="music-icon" class="fas fa-music"></i>
+                    <span id="music-status">Play Music</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ring Box -->
+        <div class="flex justify-center mb-16">
+            <div onclick="openRingModal()" class="ring-box cursor-pointer bg-gradient-to-br from-yellow-300 to-amber-500 p-8 rounded-3xl shadow-2xl flex flex-col items-center">
+                <div class="text-8xl mb-4">💍</div>
+                <p class="text-amber-900 font-bold text-xl tracking-widest">Will you marry me?</p>
+            </div>
+        </div>
+
+        <!-- Gallery -->
+        <div class="mb-16">
+            <h2 class="text-4xl font-bold text-center mb-8 text-pink-100">Our Beautiful Memories</h2>
+            <p class="text-center text-pink-200 mb-10 max-w-md mx-auto">Click any photo to view fullscreen • Swipe or use arrows on mobile</p>
+            
+            <div id="gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Photos will be injected by JS -->
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="mb-16">
+            <h2 class="text-4xl font-bold text-center mb-10 text-pink-100">Mga Minamahal Kong Mensahe</h2>
+            <div class="space-y-8">
+                <div class="message-card p-8 rounded-3xl border border-white/20">
+                    <p class="text-xl italic">"Ikaw ang pinakamagandang nangyari sa buhay ko. Araw-araw, mas minamahal kita."</p>
+                    <p class="text-right mt-4 text-pink-300">- Ikaw na mahal na mahal kita</p>
+                </div>
+                
+                <div class="message-card p-8 rounded-3xl border border-white/20">
+                    <p class="text-xl italic">"Sa bawat tibok ng puso ko, ikaw ang naroon. At magiging ganito habang buhay."</p>
+                    <p class="text-right mt-4 text-pink-300">- Forever yours</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final message -->
+        <div class="text-center py-16 border-t border-white/20">
+            <p class="text-3xl mb-6">"Sana'y tanggapin mo ang aking buong pag-ibig at buhay."</p>
+            <button onclick="yesProposal()" 
+                    class="px-12 py-6 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white text-2xl font-bold rounded-2xl shadow-xl transition-all active:scale-95">
+                YES, I'LL MARRY YOU! 💍
+            </button>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photoModal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4">
+        <div class="modal max-w-3xl w-full bg-zinc-900 rounded-3xl overflow-hidden">
+            <div class="flex justify-between items-center p-4 border-b border-white/10">
+                <button onclick="closeModal()" class="text-white text-3xl hover:text-pink-400">×</button>
+                <div class="flex gap-6 text-2xl">
+                    <button onclick="prevPhoto()" class="hover:text-pink-400">←</button>
+                    <button onclick="nextPhoto()" class="hover:text-pink-400">→</button>
+                </div>
+            </div>
+            <div id="modalImageContainer" class="p-4 flex justify-center bg-black">
+                <!-- Image loaded by JS -->
+            </div>
+            <div id="modalCaption" class="p-6 text-center text-pink-200"></div>
+        </div>
+    </div>
+
+    <!-- Ring Proposal Modal -->
+    <div id="ringModal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100]">
+        <div class="text-center max-w-md">
+            <div class="text-[180px] mb-8 animate-bounce">💍</div>
+            <h2 class="text-5xl font-bold mb-4">Will You Marry Me?</h2>
+            <p class="text-2xl text-pink-300 mb-12">My love, my life, my everything...</p>
+            
+            <div class="flex gap-6 justify-center">
+                <button onclick="closeRingModal()" 
+                        class="px-10 py-5 bg-zinc-700 hover:bg-zinc-600 text-xl rounded-2xl">Not Yet</button>
+                <button onclick="yesProposal()" 
+                        class="px-10 py-5 bg-gradient-to-r from-pink-500 to-purple-600 text-xl rounded-2xl font-bold">YES! FOREVER ❤️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/sfx/preview/296/296-preview.mp3" type="audio/mpeg">
+        <!-- Replace with a romantic song URL if desired -->
+    </audio>
+
+    <script>
+        // === ROMANTIC INSTAGRAM-STYLE GALLERY ===
+        // Palitan mo 'to gamit ang iyong mga pictures sa "images/" folder
+        const photos = [
+            {
+                image: "images/us.jpg",
+                caption: "Ikaw ang pinakamaganda sa mundo ❤️",
+                date: "January 15, 2023",
+                rotate: -7
+            },
+            {
+                image: "images/pic1.jpg",
+                caption: "Our first date... never forgot this day 🌹",
+                date: "February 3, 2023",
+                rotate: 5
+            },
+            {
+                image: "images/pic2.jpg",
+                caption: "Sa beach tayo lang dalawa ☀️",
+                date: "March 22, 2023",
+                rotate: -4
+            },
+            {
+                image: "images/pic3.jpg",
+                caption: "My favorite smile in the world 😍",
+                date: "April 10, 2023",
+                rotate: 8
+            },
+            {
+                image: "images/pic4.jpg",
+                caption: "Every moment with you feels like a dream",
+                date: "May 5, 2023",
+                rotate: -6
+            },
+            {
+                image: "images/pic5.jpg",
+                caption: "First time you held my hand 💕",
+                date: "June 12, 2023",
+                rotate: 3
+            },
+            {
+                image: "images/pic6.jpg",
+                caption: "You make everything better",
+                date: "July 28, 2023",
+                rotate: -9
+            },
+            {
+                image: "images/pic7.jpg",
+                caption: "Forever starts here with you",
+                date: "August 19, 2023",
+                rotate: 6
+            }
+            // Magdagdag ka lang ng bagong object sa baba para sa ibang pictures
+            // Example:
+            // {
+            //     image: "images/pic8.jpg",
+            //     caption: "Your caption here",
+            //     date: "Month Day, Year",
+            //     rotate: -5
+            // }
+        ];
+
+        let currentPhotoIndex = 0;
+        let isPlaying = false;
+        const audio = document.getElementById('bgMusic');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                document.getElementById('music-icon').classList.remove('fa-pause');
+                document.getElementById('music-icon').classList.add('fa-music');
+                document.getElementById('music-status').textContent = 'Play Music';
+            } else {
+                audio.play().catch(() => {});
+                document.getElementById('music-icon').classList.remove('fa-music');
+                document.getElementById('music-icon').classList.add('fa-pause');
+                document.getElementById('music-status').textContent = 'Pause Music';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function createGallery() {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
+            
+            photos.forEach((photo, index) => {
+                const div = document.createElement('div');
+                div.className = `polaroid floating bg-white p-4 rounded-xl cursor-pointer overflow-hidden`;
+                div.style.transform = `rotate(${photo.rotate || 0}deg)`;
+                div.innerHTML = `
+                    <div class="photo-container">
+                        <img src="${photo.image}" 
+                             class="w-full aspect-[4/3] object-cover rounded-lg shadow-inner"
+                             alt="${photo.caption}">
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p class="text-zinc-800 font-medium leading-tight">${photo.caption}</p>
+                        ${photo.date ? `<p class="text-pink-600 text-sm mt-1">${photo.date}</p>` : ''}
+                    </div>
+                `;
+                div.onclick = () => openPhotoModal(index);
+                gallery.appendChild(div);
+            });
+        }
+
+        function openPhotoModal(index) {
+            currentPhotoIndex = index;
+            const modal = document.getElementById('photoModal');
+            const container = document.getElementById('modalImageContainer');
+            const captionEl = document.getElementById('modalCaption');
+            
+            const photo = photos[index];
+            
+            container.innerHTML = `
+                <img src="${photo.image}" 
+                     class="max-h-[75vh] w-auto rounded-3xl shadow-2xl" 
+                     alt="${photo.caption}">
+            `;
+            
+            let captionHTML = `<p class="text-2xl">${photo.caption}</p>`;
+            if (photo.date) {
+                captionHTML += `<p class="text-pink-400 mt-3">${photo.date}</p>`;
+            }
+            
+            captionEl.innerHTML = captionHTML;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function prevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            openPhotoModal(currentPhotoIndex);
+        }
+
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            openPhotoModal(currentPhotoIndex);
+        }
+
+        function openRingModal() {
+            document.getElementById('ringModal').classList.remove('hidden');
+            document.getElementById('ringModal').classList.add('flex');
+        }
+
+        function closeRingModal() {
+            const modal = document.getElementById('ringModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function yesProposal() {
+            const messages = [
+                "💍❤️ YES! I love you forever!",
+                "Sobrang saya ko! 😭",
+                "My heart is yours completely...",
+                "Let's start our forever together ✨"
+            ];
+            
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < messages.length) {
+                    alert(messages[i]);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    confettiBurst();
+                }
+            }, 800);
+            
+            closeRingModal();
+        }
+
+        function confettiBurst() {
+            // Simple confetti using DOM
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.textContent = ['💖','❤️','💕','✨'][Math.floor(Math.random()*4)];
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-50px';
+                    confetti.style.fontSize = '2rem';
+                    confetti.style.zIndex = '200';
+                    confetti.style.transition = 'all 4s linear';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random()*800}deg)`;
+                        confetti.style.opacity = '0';
+                    }, 50);
+                    
+                    setTimeout(() => confetti.remove(), 4500);
+                }, i * 30);
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('photoModal').classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') prevPhoto();
+                if (e.key === 'ArrowRight') nextPhoto();
+                if (e.key === 'Escape') closeModal();
+            }
+        });
+
+        // Initialize
+        window.onload = () => {
+            createGallery();
+            
+            // Auto play music after interaction
+            document.body.addEventListener('click', () => {
+                if (!isPlaying) {
+                    // audio.play().catch(()=>{});
+                }
+            }, { once: true });
+            
+            // Mobile swipe support simulation via touch (basic)
+            console.log('%c❤️ Your love story page is ready! Made with all my heart for you.', 'color: #ff1493; font-size: 16px;');
+        };
+    </script>
+</body>
+</html>
